@@ -1,16 +1,16 @@
 # srcds-service
 
-Created to be able to quickly manage a Source Dedicated Server using `service srcds {start|stop|restart|status}` / `/etc/init.d/srcds {start|stop|restart|status}` command in Ubuntu with a simple config file without any `screen` or `tmux` processes.
+Created to be able to quickly manage a Source Dedicated Server using the `service` command in Ubuntu with a simple config file without any `screen` or `tmux` processes needed.
 
 
 ## Installing
 
-1. Locate your SRCDS/SteamCMD install, by default its configured as `/opt/steam`, and then update the DIR variable in `srcds`.
-2. I'd highly recommend creating a seperate user to run SRCDS from, say "steam". `adduser steam` should setup everything you need. Then set which ever user and group you want SRCDS to run as in the USER and GROUP variables in `srcds_defaults`. Make sure this user can execute the `srcds_run` executable.
+1. Locate your SRCDS/SteamCMD install, by default it's configured as `/opt/steam`, and then update the DIR variable in `srcds`.
+2. I'd highly recommend creating a seperate user to run SRCDS from, by default the script uses "steam". `adduser steam` should setup everything you need. Then set which ever user and group you want SRCDS to run as in the USER and GROUP variables in `srcds_defaults`. Make sure this user can execute the `srcds_run` executable.
 3. Setup the command line options that will be passed onto SRCDS, by default its setup as a Team Fortress 2 server with a maximum of 14 players and `sv_pure` enabled. `-norestart` is required to stop SRCDS from restarting it self when you try to stop it.
 4. Setup the CVars to be set on start up, by default it's setup to run the map `cp_badlands`.
-5. Copy the config file `sudo cp srcds_defaults /etc/defaults/srcds` with the correct permissions: `sudo chmod 644 /etc/defaults/srcds`
-6. Copy the service file `sudo cp srcds /etc/init.d/srcds` with the correct permissions: `sudo chmod 755 /etc/init.d/srcds`
+5. Copy the config file `sudo cp srcds_defaults /etc/defaults/srcds` with the correct permissions: `sudo chmod 644 /etc/defaults/srcds`.
+6. Copy the service file `sudo cp srcds /etc/init.d/srcds` with the correct permissions: `sudo chmod 755 /etc/init.d/srcds`.
 
 
 ## Usage
@@ -25,14 +25,18 @@ You can also use `sudo /etc/init.d/srcds {start|stop|restart|status}` if you pre
 
 ### Checking its properly installed
 
+Optional steps but might be useful to figure out where you might be going wrong if you've having problems.
+
 1. First run `sudo service srcds start` to start SRCDS.
-2. Next open `top` and check that you can see `srcds_linux` some where in the list, note down the related number in the PID column and press `Q` to quit.
+2. Next open `top` and check that you can see `srcds_linux` some where in the list, note down the number in the PID column and press `Q` to quit.
 3. Now run `cat /var/run/srcds.pid` and you should see the same number you noted down in step 2.
 4. Run `sudo service srcds status` which should tell you ` * srcds is running`.
 5. Now run `sudo service srcds stop` which will stop SRCDS.
 6. Check `top` again to see that `srcds_linux` has disappeared from the list
 7. Finally run `sudo service srcds status` which will now tell you ` * srcds is not running`
 8. You're all done!
+
+If you find your servers gone off on a mad-one (forget the `-norestart` option?), easiest way to stop the server without rebooting your box would be to connect to the server from in-game and using `rcon exit` from the console.
 
 
 ## Credits
