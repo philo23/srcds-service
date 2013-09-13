@@ -1,9 +1,22 @@
+# User and group SRCDS will run as
+USER="steam"
+GROUP="steam"
+
+
 # Command line arguments
+# See: https://developer.valvesoftware.com/wiki/Command_Line_Options#Source_Dedicated_Server
 ARGS+=("-console")
 ARGS+=("-game tf")
 ARGS+=("-maxplayers 14")
 ARGS+=("-pure")
-ARGS+=("-norestart")
+ARGS+=("-norestart") # REQUIRED
+# More examples
+#ARGS+=("-port 27015") # Uncomment to change the default port
+#ARGS+=("-replay") # Enable replay (must be configured seperately)
+
 
 # CVars loaded on start
+# See: https://developer.valvesoftware.com/wiki/Command_Line_Options#Console_variables_2
 CVARS+=("+map cp_badlands")
+# More examples
+#CVARS+=("+sv_lan 1") # Uncomment to make the server only available over LAN

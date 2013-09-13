@@ -1,8 +1,5 @@
 #!/bin/bash
 
-USER="steam"
-GROUP="steam"
-
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DESC="Source Dedicated Server"
 NAME=srcds
@@ -12,8 +9,10 @@ DAEMON=$DIR/tf2/srcds_run
 SCRIPTNAME=/etc/init.d/$NAME
 
 
-
 [ -x "$DAEMON" ] || exit 0
+
+USER="steam"
+GROUP="steam"
 
 ARGS=()
 CVARS=()
@@ -46,19 +45,16 @@ do_start() {
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --background --chuid $USER --exec $DAEMON -- $DAEMON_ARGS || return 2
 }
 do_stop () {
-	start-stop-daemon --stop --retry=TERM/30/KILL/5 --pidfile $PIDFILE --user $USER
+	start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --user $USER
 	RETVAL="$?"
-	echo "FIRST: $RETVAL"
 	[ "$RETVAL" = 2 ] && return 2
 
-	start-stop-daemon --stop --oknodo --retry=TERM/30/KILL/5 --exec $DAEMON
-	echo "SECOND"
+	start-stop-daemon --stop --quiet --oknodo --retry=TERM/30/KILL/5 --exec $DAEMON
 	[ "$?" = 2 ] && return 2
 
-	echo "THIRD"
 
 	# Delete the PID file
-	#rm -f $PIDFILE
+	rm -f $PIDFILE
 	return "$RETVAL"
 }
 
