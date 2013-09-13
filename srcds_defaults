@@ -1,0 +1,9 @@
+# Command line arguments
+ARGS+=("-console")
+ARGS+=("-game tf")
+ARGS+=("-maxplayers 14")
+ARGS+=("-pure")
+ARGS+=("-norestart")
+
+# CVars loaded on start
+CVARS+=("+map cp_badlands")
