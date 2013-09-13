@@ -6,7 +6,7 @@ Created to be able to quickly manage a Source Dedicated Server using the `servic
 ## Installing
 
 1. Locate your SRCDS/SteamCMD install, by default it's configured as `/opt/steam`, and then update the DIR variable in `srcds`.
-2. I'd highly recommend creating a seperate user to run SRCDS from, by default the script uses "steam". `adduser steam` should setup everything you need. Then set which ever user and group you want SRCDS to run as in the USER and GROUP variables in `srcds_defaults`. Make sure this user can execute the `srcds_run` executable.
+2. I'd highly recommend creating a seperate user to run SRCDS from, by default the script uses "steam". `adduser steam` should setup everything you need. Then set which ever user and group you want SRCDS to run as in the USER and GROUP variables in `srcds_defaults`. Make sure this user can execute `srcds_run`.
 3. Setup the command line options that will be passed onto SRCDS, by default its setup as a Team Fortress 2 server with a maximum of 14 players and `sv_pure` enabled. `-norestart` is required to stop SRCDS from restarting it self when you try to stop it.
 4. Setup the CVars to be set on start up, by default it's setup to run the map `cp_badlands`.
 5. Copy the config file `sudo cp srcds_defaults /etc/defaults/srcds` with the correct permissions: `sudo chmod 644 /etc/defaults/srcds`.
