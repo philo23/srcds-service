@@ -1,6 +1,7 @@
 #!/bin/bash
 
 USER="steam"
+GROUP="steam"
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 DESC="Source Dedicated Server"
@@ -40,20 +41,24 @@ do_start() {
 	chown $USER $PIDFILE
 
 	# Check to see its running first
-	start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid $USER --exec $DAEMON --test > /dev/null || return 1
+	start-stop-daemon --start --quiet --pidfile $PIDFILE --chuid $USER:$GROUP --exec $DAEMON --test > /dev/null || return 1
 	# Start the SRCDS running
 	start-stop-daemon --start --quiet --pidfile $PIDFILE --background --chuid $USER --exec $DAEMON -- $DAEMON_ARGS || return 2
 }
 do_stop () {
-	start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 --pidfile $PIDFILE --name $NAME
+	start-stop-daemon --stop --retry=TERM/30/KILL/5 --pidfile $PIDFILE --user $USER
 	RETVAL="$?"
+	echo "FIRST: $RETVAL"
 	[ "$RETVAL" = 2 ] && return 2
 
-	start-stop-daemon --stop --quiet --oknodo --retry=0/30/KILL/5 --exec $DAEMON
+	start-stop-daemon --stop --oknodo --retry=TERM/30/KILL/5 --exec $DAEMON
+	echo "SECOND"
 	[ "$?" = 2 ] && return 2
 
+	echo "THIRD"
+
 	# Delete the PID file
-	rm -f $PIDFILE
+	#rm -f $PIDFILE
 	return "$RETVAL"
 }
 
